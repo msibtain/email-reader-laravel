@@ -9,10 +9,10 @@
                     
 
                     <div class="row">
-                        <div class="col-md-8"><h3>{{ __('Rules') }}</h3></div>
+                        <div class="col-md-8"><h3>{{ __('Blacklist Links') }}</h3></div>
                         <div class="col-md-4 text-right">
                             <div align="right">
-                                <a class="btn btn-primary btn-sm" href="{{url('/rules/add')}}">Add Rule</a>
+                                <a class="btn btn-primary btn-sm" href="{{url('/blacklists/add')}}">Add Blacklist</a>
                             </div>
                         </div>
                     </div>
@@ -47,15 +47,15 @@
     </tr>
   </thead>
   <tbody>
-    @foreach ($rules as $index => $rule)
+    @foreach ($blacklistlinks as $index => $rule)
     <tr>
       <th scope="row">{{($index+1)}}</th>
       <td>{{$rule->column}}</td>
       <td>{{$rule->operator}}</td>
       <td>{{$rule->value}}</td>
       <td>
-        <a  class="btn btn-outline-primary btn-sm" href="{{url('/rules/edit/'.$rule->id)}}">Edit</a> 
-        <a  class="btn btn-outline-danger btn-sm" href="{{url('/rules/delete/'.$rule->id)}}">Delete</a>
+        <a  class="btn btn-outline-primary btn-sm" href="{{url('/blacklists/edit/'.$rule->id)}}">Edit</a> 
+        <a  class="btn btn-outline-danger btn-sm" href="{{url('/blacklists/delete/'.$rule->id)}}">Delete</a>
       </td>
     </tr>
     @endforeach

@@ -30,12 +30,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url('/domains')}}">Domains</a>
+                            <a class="nav-link" href="{{url('/blacklists')}}">Blacklist Links</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url('/rules')}}">Rules</a>
+                            <a class="nav-link" href="{{url('/reademails')}}">Read Emails</a>
                         </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->

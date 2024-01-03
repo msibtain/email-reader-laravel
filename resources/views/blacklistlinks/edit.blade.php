@@ -9,10 +9,10 @@
                     
 
                     <div class="row">
-                        <div class="col-md-8"><h3>{{ __('Add Rule') }}</h3></div>
+                        <div class="col-md-8"><h3>{{ __('Edit Blacklist Link') }}</h3></div>
                         <div class="col-md-4 text-right">
                             <div align="right">
-                                <a class="btn btn-primary btn-sm" href="{{url('/rules')}}">Back to Rules</a>
+                                <a class="btn btn-primary btn-sm" href="{{url('/blacklists')}}">Back to Blacklist Links</a>
                             </div>
                         </div>
                     </div>
@@ -42,10 +42,9 @@
                             <label for="exampleInputEmail1">Select Column</label>
                             <select class="form-control" id="exampleFormControlSelect1" name="column" required>
                                 <option value=""></option>
-                                <option value="godaddy_valuation">godaddy_valuation</option>
-                                <option value="domain_length">domain_length</option>
-                                <option value="extension">extension</option>
-                                <option value="no_of_extensions">no_of_extensions</option>
+                                <option @if ($blacklistlinks->column === "Subject") selected @endif value="Subject">Subject</option>
+                                <option @if ($blacklistlinks->column === "Link") selected @endif value="Link">Link</option>
+                                <option @if ($blacklistlinks->column === "From Address") selected @endif value="From Address">From Address</option>
                             </select>
                         </div>
 
@@ -55,10 +54,8 @@
                             <label for="exampleInputEmail1">Select Operator</label>
                             <select class="form-control" id="exampleFormControlSelect1" name="operator" required>
                                 <option value=""></option>
-                                <option value="=">Equals ( = )</option>
-                                <option value="<">Less than ( < )</option>
-                                <option value=">">Greater than ( > )</option>
-                                <option value="like">Like</option>
+                                <option @if ($blacklistlinks->operator === "=") selected @endif value="=">Equals ( = )</option>
+                                <option @if ($blacklistlinks->operator === "like") selected @endif value="like">Like</option>
                             </select>
                         </div>
 
@@ -66,12 +63,12 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Enter Value</label>
-                            <input type="text" class="form-control" id="txtValue" name="value">
+                            <input type="text" class="form-control" id="txtValue" name="value" value="{{$blacklistlinks->value}}" />
                         </div>
 
                         <br>
 
-                        <button type="submit" class="btn btn-primary">Add Rule</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
 
                     </form>
 

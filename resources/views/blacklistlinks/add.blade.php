@@ -9,10 +9,10 @@
                     
 
                     <div class="row">
-                        <div class="col-md-8"><h3>{{ __('Edit Rule') }}</h3></div>
+                        <div class="col-md-8"><h3>{{ __('Add Blacklist Link') }}</h3></div>
                         <div class="col-md-4 text-right">
                             <div align="right">
-                                <a class="btn btn-primary btn-sm" href="{{url('/rules')}}">Back to Rules</a>
+                                <a class="btn btn-primary btn-sm" href="{{url('/blacklists')}}">Back to Blacklist Links</a>
                             </div>
                         </div>
                     </div>
@@ -39,13 +39,12 @@
                         @csrf
 
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Select Column</label>
+                            <label for="exampleInputEmail1">Select Source</label>
                             <select class="form-control" id="exampleFormControlSelect1" name="column" required>
                                 <option value=""></option>
-                                <option @if ($rule->column === "godaddy_valuation") selected @endif value="godaddy_valuation">godaddy_valuation</option>
-                                <option @if ($rule->column === "domain_length") selected @endif value="domain_length">domain_length</option>
-                                <option @if ($rule->column === "extension") selected @endif value="extension">extension</option>
-                                <option @if ($rule->column === "no_of_extensions") selected @endif value="no_of_extensions">no_of_extensions</option>
+                                <option value="Subject">Subject</option>
+                                <option value="Link">Link</option>
+                                <option value="From Address">From Address</option>
                             </select>
                         </div>
 
@@ -55,10 +54,8 @@
                             <label for="exampleInputEmail1">Select Operator</label>
                             <select class="form-control" id="exampleFormControlSelect1" name="operator" required>
                                 <option value=""></option>
-                                <option @if ($rule->operator === "=") selected @endif value="=">Equals ( = )</option>
-                                <option @if ($rule->operator === "<") selected @endif value="<">Less than ( < )</option>
-                                <option @if ($rule->operator === ">") selected @endif value=">">Greater than ( > )</option>
-                                <option @if ($rule->operator === "like") selected @endif value="like">Like</option>
+                                <option value="=">Equals ( = )</option>
+                                <option value="like">Like</option>
                             </select>
                         </div>
 
@@ -66,12 +63,12 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Enter Value</label>
-                            <input type="text" class="form-control" id="txtValue" name="value" value="{{$rule->value}}" />
+                            <input type="text" class="form-control" id="txtValue" name="value">
                         </div>
 
                         <br>
 
-                        <button type="submit" class="btn btn-primary">Update Rule</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
 
                     </form>
 

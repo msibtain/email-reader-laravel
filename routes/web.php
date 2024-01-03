@@ -21,11 +21,11 @@ Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/domains', [App\Http\Controllers\DomainsController::class, 'index'])->name('index');
+Route::get('/blacklists', [App\Http\Controllers\BlacklistLinksController::class, 'index'])->name('index');
+Route::get('/blacklists/add', [App\Http\Controllers\BlacklistLinksController::class, 'add'])->name('add');
+Route::post('/blacklists/add', [App\Http\Controllers\BlacklistLinksController::class, 'submit'])->name('submit');
+Route::get('/blacklists/edit/{id}', [App\Http\Controllers\BlacklistLinksController::class, 'edit'])->name('edit');
+Route::post('/blacklists/edit/{id}', [App\Http\Controllers\BlacklistLinksController::class, 'update'])->name('update');
+Route::get('/blacklists/delete/{id}', [App\Http\Controllers\BlacklistLinksController::class, 'delete'])->name('delete');
 
-Route::get('/rules', [App\Http\Controllers\RulesController::class, 'index'])->name('index');
-Route::get('/rules/add', [App\Http\Controllers\RulesController::class, 'add'])->name('add');
-Route::post('/rules/add', [App\Http\Controllers\RulesController::class, 'submit'])->name('submit');
-Route::get('/rules/edit/{id}', [App\Http\Controllers\RulesController::class, 'edit'])->name('edit');
-Route::post('/rules/edit/{id}', [App\Http\Controllers\RulesController::class, 'update'])->name('update');
-Route::get('/rules/delete/{id}', [App\Http\Controllers\RulesController::class, 'delete'])->name('delete');
+Route::get('/reademails', [App\Http\Controllers\EmailsController::class, 'read'])->name('read');
