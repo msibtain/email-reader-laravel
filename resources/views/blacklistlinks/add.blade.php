@@ -9,10 +9,10 @@
                     
 
                     <div class="row">
-                        <div class="col-md-8"><h3>{{ __('Add Blacklist Link') }}</h3></div>
+                        <div class="col-md-8"><h3>{{ __('Add Blacklist Rule') }}</h3></div>
                         <div class="col-md-4 text-right">
                             <div align="right">
-                                <a class="btn btn-primary btn-sm" href="{{url('/blacklists')}}">Back to Blacklist Links</a>
+                                <a class="btn btn-primary btn-sm" href="{{url('/blacklists')}}">Back to Blacklist Rules</a>
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,9 @@
                                 <option value=""></option>
                                 <option value="Subject">Subject</option>
                                 <option value="Link">Link</option>
-                                <option value="From Address">From Address</option>
+                                <option value="From Name">From Name</option>
+                                <option value="From Email">From Email</option>
+                                <option value="From Host">From Host/Domain</option>
                             </select>
                         </div>
 
@@ -55,7 +57,7 @@
                             <select class="form-control" id="exampleFormControlSelect1" name="operator" required>
                                 <option value=""></option>
                                 <option value="=">Equals ( = )</option>
-                                <option value="like">Like</option>
+                                <option value="contains">Contains</option>
                             </select>
                         </div>
 

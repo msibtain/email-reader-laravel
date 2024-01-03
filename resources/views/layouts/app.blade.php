@@ -32,7 +32,7 @@
                     <ul class="navbar-nav me-auto">
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url('/blacklists')}}">Blacklist Links</a>
+                            <a class="nav-link" href="{{url('/blacklists')}}">Blacklist Rules</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{url('/reademails')}}">Read Emails</a>

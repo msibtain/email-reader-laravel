@@ -9,10 +9,10 @@
                     
 
                     <div class="row">
-                        <div class="col-md-8"><h3>{{ __('Blacklist Links') }}</h3></div>
+                        <div class="col-md-8"><h3>{{ __('Blacklist Rules') }}</h3></div>
                         <div class="col-md-4 text-right">
                             <div align="right">
-                                <a class="btn btn-primary btn-sm" href="{{url('/blacklists/add')}}">Add Blacklist</a>
+                                <a class="btn btn-primary btn-sm" href="{{url('/blacklists/add')}}">Add Rule</a>
                             </div>
                         </div>
                     </div>

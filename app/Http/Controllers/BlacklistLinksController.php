@@ -26,7 +26,7 @@ class BlacklistLinksController extends Controller
         $BlacklistLinks->value = $request->value;
         $BlacklistLinks->save();
 
-        return redirect("/blacklists")->with("success", "New BlacklistLink has been added");
+        return redirect("/blacklists")->with("success", "New Rule has been added");
     }
 
     public function edit($id)
@@ -43,13 +43,13 @@ class BlacklistLinksController extends Controller
         $BlacklistLinks->value = $request->value;
         $BlacklistLinks->save();
 
-        return redirect("/blacklists")->with("success", "BlacklistLink has been updated");
+        return redirect("/blacklists")->with("success", "Rule has been updated");
     }
 
     public function delete($id)
     {
         BlacklistLinks::where("id", $id)->delete();
-        return redirect("/blacklists")->with("success", "BlacklistLink has been deleted");
+        return redirect("/blacklists")->with("success", "Rule has been deleted");
     }
 
 }
