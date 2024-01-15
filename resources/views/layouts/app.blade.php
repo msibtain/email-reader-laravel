@@ -32,10 +32,15 @@
                     <ul class="navbar-nav me-auto">
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url('/blacklists')}}">Blacklist Rules</a>
+                            <a class="btn btn-outline-secondary btn-sm" class="nav-link" href="{{url('/blacklists')}}">Blacklist Rules</a>
                         </li>
+                        <li>&nbsp;</li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url('/reademails')}}">Read Emails</a>
+                            <a class="btn btn-outline-secondary btn-sm" class="nav-link" href="{{url('/links')}}">View Links</a>
+                        </li>
+                        <li>&nbsp;</li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-secondary btn-sm" class="nav-link" href="{{url('/reademails')}}">Read Emails</a>
                         </li>
 
                     </ul>
