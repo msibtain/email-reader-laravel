@@ -38,9 +38,8 @@
                         <thead class="table-dark">
                             <tr>
                                 <td>Link</td>
-                                <td>From Name</td>
-                                <td>From Email</td>
-                                <td>Received on</td>
+                                <td>Count</td>
+                                <td>View</td>
                             </tr>
                         </thead>
                     </table>
@@ -103,18 +102,15 @@ label {
             aoColumns: [
                 {
                     data: 'links',
+                },
+                {
+                    data: 'count',
+                },
+                {
+                    data: 'id',
                     render: function(data, type, row) {
-                        return `<a href="{{url('/links/detail/`+row.id+`')}}">`+data+`</a>`;
+                        return `<a href="{{url('/links/detail/`+row.id+`')}}">View</a>`;
                     }
-                },
-                {
-                    data: 'from_name',
-                },
-                {
-                    data: 'from_email',
-                },
-                {
-                    data: 'created_at',
                 }
             ]
         });

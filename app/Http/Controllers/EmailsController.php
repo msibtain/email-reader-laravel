@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Email;
 use App\Models\BlacklistLinks;
+use DB;
 
 use Illuminate\Http\Request;
 
@@ -20,8 +21,8 @@ class EmailsController extends Controller
             storage_path('/email_logs'),
             'US-ASCII' // force charset different from UTF-8
         );
-        //$txtSince = date("Ymd");
-        $txtSince = "20240102";
+        $txtSince = date("Ymd");
+        //$txtSince = "20240102";
         $mailsIds = $mailbox->searchMailbox('SINCE "'.$txtSince.'"');
         
         foreach($mailsIds as $num) 
@@ -31,25 +32,33 @@ class EmailsController extends Controller
 
             $mailData = $this->process_email($mail, $num);
 
-            if ($mailData && $mailData['links'])
+            
+            if ($mailData)
             {
-                foreach ($mailData['links'] as $link)
+                if ($mailData['links'])
                 {
-                    $Email = new Email();
-                    $Email->email_id            = $mailData['email_id'];
-                    $Email->from_name           = $mailData['from_name'];
-                    $Email->from_email          = $mailData['from_email'];
-                    $Email->from_host           = $mailData['from_host'];
-                    $Email->subject             = $mailData['subject'];
-                    $Email->body                = $mailData['body'];
-                    $Email->links               = $link;
-                    $Email->save();
+                    foreach ($mailData['links'] as $link)
+                    {
+                        $Email = new Email();
+                        $Email->email_id            = $mailData['email_id'];
+                        $Email->from_name           = $mailData['from_name'];
+                        $Email->from_email          = $mailData['from_email'];
+                        $Email->from_host           = $mailData['from_host'];
+                        $Email->subject             = $mailData['subject'];
+                        $Email->body                = $mailData['body'];
+                        $Email->links               = $link;
+                        $Email->save();
+                    }
+    
+                    echo "Email data saved: " .$mailData['email_id'];
+                    echo "<hr>";
                 }
-
-                echo "Email data saved: " .$mailData['email_id'];
-                echo "<hr>";
-
-
+                else
+                {
+                    echo "No links found in email: " .$mailData['email_id'];
+                    echo "<hr>";
+                }
+                
             }
             else
             {
@@ -64,10 +73,22 @@ class EmailsController extends Controller
     function process_email($mail, $num)
     {
         
-        if ($this->isBlacklist( $mail->subject, "Subject" )) return false;
-        if ($this->isBlacklist( $mail->fromName, "From Name" )) return false;
-        if ($this->isBlacklist( $mail->fromAddress, "From Email" )) return false;
-        if ($this->isBlacklist( $mail->fromHost, "From Host" )) return false;
+        if ($this->isBlacklist( $mail->subject, "Subject" )) {
+            echo "subject blacklist";
+            return false;
+        };
+        if ($this->isBlacklist( $mail->fromName, "From Name" )) {
+            echo "from name blacklist";
+            return false;
+        }
+        if ($this->isBlacklist( $mail->fromAddress, "From Email" )) {
+            echo "from email blacklist";
+            return false;
+        }
+        if ($this->isBlacklist( $mail->fromHost, "From Host" )) {
+            echo "from host blacklist";
+            return false;
+        }
         
         $mailData = [];
 
@@ -131,6 +152,10 @@ class EmailsController extends Controller
             {
                 $return[] = $link;
             }
+            else
+            {
+                echo " link is blacklist ";
+            }
         }
 
         if (count($return)) return $return;
@@ -155,32 +180,20 @@ class EmailsController extends Controller
         $orderBy = $request->order[0]['dir'] ?? 'desc';
 
         // get data from products table
-        $query = \DB::table('emails')->select('*');
+        $query = \DB::table('emails')->select(DB::raw('COUNT(links) AS count'), 'links', 'id');
 
         // Search
         $search = $request->search;
-        $query = $query->where(function($query) use ($search){
-            $query->orWhere('from_name', 'like', "%".$search."%");
-            $query->orWhere('from_email', 'like', "%".$search."%");
-            $query->orWhere('links', 'like', "%".$search."%");
-        });
-
-        $orderByName = 'created_at';
-        switch($orderColumnIndex){
-            case '0':
-                $orderByName = 'links';
-                break;
-            case '1':
-                $orderByName = 'from_name';
-                break;
-            case '2':
-                $orderByName = 'from_email';
-                break;
-            case '3':
-                $orderByName = 'created_at';
-                break;
-        
+        if (!empty($search))
+        {
+            $query = $query->where(function($query) use ($search){
+                $query->orWhere('links', 'like', "%".$search."%");
+            });
         }
+        
+
+        $orderByName = 'links';
+        $query = $query->groupBy('links');
         $query = $query->orderBy($orderByName, $orderBy);
         $recordsFiltered = $recordsTotal = $query->count();
         $users = $query->skip($skip)->take($pageLength)->get();
@@ -192,6 +205,45 @@ class EmailsController extends Controller
     function link_detail($id)
     {
         $email = Email::find($id);
-        return view('detail', compact('email'));
+        return view('detail', compact('id', 'email'));
     }
+
+    function link_detail_table($id, Request $request) 
+    {
+        $objEmail = Email::find($id);
+        $strLink = $objEmail->links;
+
+        // Page Length
+        $pageNumber = ( $request->start / $request->length )+1;
+        $pageLength = $request->length;
+        $skip       = ($pageNumber-1) * $pageLength;
+
+        // Page Order
+        $orderColumnIndex = $request->order[0]['column'] ?? '0';
+        $orderBy = $request->order[0]['dir'] ?? 'desc';
+
+        // get data from products table
+        $query = \DB::table('emails')->select('*')->where("links", "=", $strLink);
+
+        // Search
+        $search = $request->search;
+        if (!empty($search))
+        {
+            $query = $query->where(function($query) use ($search){
+                $query->orWhere('from_name', 'like', "%".$search."%");
+                $query->orWhere('from_email', 'like', "%".$search."%");
+                $query->orWhere('from_host', 'like', "%".$search."%");
+                $query->orWhere('subject', 'like', "%".$search."%");
+            });
+        }
+        
+
+        $orderByName = 'links';
+        $query = $query->orderBy($orderByName, $orderBy);
+        $recordsFiltered = $recordsTotal = $query->count();
+        $users = $query->skip($skip)->take($pageLength)->get();
+
+        return response()->json(["draw"=> $request->draw, "recordsTotal"=> $recordsTotal, "recordsFiltered" => $recordsFiltered, 'data' => $users], 200);
+    }
+
 }

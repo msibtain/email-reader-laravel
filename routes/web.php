@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/links', [App\Http\Controllers\EmailsController::class, 'list'])->name('list');
     Route::post('/get-links-list', [App\Http\Controllers\EmailsController::class, 'get_links_list'])->name('get_links_list');
     Route::get('/links/detail/{id}', [App\Http\Controllers\EmailsController::class, 'link_detail'])->name('link_detail');
+    Route::post('/links/detail/{id}', [App\Http\Controllers\EmailsController::class, 'link_detail_table'])->name('link_detail_table');
     
     
 });
